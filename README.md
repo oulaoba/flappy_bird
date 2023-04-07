@@ -27,7 +27,7 @@
 │       └── mod.rs
 ```
 - game.rs 负责游戏的逻辑、控制、等内容。
-- snake.rs 负责小鸟本身的实现。
+- bird.rs 负责小鸟本身的实现。
 - obstacle.rs 负责障碍物的实现。
 
 ## about me 
