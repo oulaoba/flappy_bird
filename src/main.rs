@@ -12,7 +12,7 @@ fn main() -> BError {
         .unwrap();
 
     // 创建游戏内容
-    let game = game::game::game::State::new();
+    let game = game::game::State::new();
 
     // 初始化游戏 loop
     main_loop(ctx, game)
