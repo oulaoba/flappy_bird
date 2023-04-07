@@ -1,4 +1,3 @@
-
 use bracket_lib::{
     prelude::BTerm,
     random::RandomNumberGenerator,
@@ -21,9 +20,18 @@ impl OBstacle {
     /// *score 当前得分
     ///
     /// *start_x 初始x坐标
+    ///
+    /// *screen_height 游戏窗口高度
     pub fn new(score: u32, start_x: u32, screen_height: u32) -> Self {
         let mut random = RandomNumberGenerator::new();
-        let size = u32::max(2, 20 - score / 3);
+
+        let size;
+        if score > 60 {
+            size = 2
+        } else {
+            size = u32::max(2, 20 - score / 3);
+        }
+
         let half_size = size / 2 + 1;
         Self {
             x: start_x,

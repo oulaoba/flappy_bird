@@ -68,6 +68,20 @@ impl State {
         }
     }
 
+    /// 重置游戏内容的方法
+    fn reset(&mut self) {
+        self.mode = GameMode::Playing;
+        self.waite_time = 0.0;
+        self.bird = bird::Bird::new(GAME_WIDTH, GAME_HEIGHT);
+        self.score = 0;
+        let mut obstacle_list = LinkedList::new();
+        obstacle_list.push_back(obstacle::OBstacle::new(0, 35, GAME_HEIGHT));
+        obstacle_list.push_back(obstacle::OBstacle::new(0, 50, GAME_HEIGHT));
+        obstacle_list.push_back(obstacle::OBstacle::new(0, 65, GAME_HEIGHT));
+        obstacle_list.push_back(obstacle::OBstacle::new(0, 80, GAME_HEIGHT));
+        self.obstacle_list = obstacle_list;
+    }
+
     /// 游戏中的控制方法
     fn paly_control(&mut self, ctx: &mut BTerm) {
         ctx.cls();
@@ -89,6 +103,7 @@ impl State {
                 VirtualKeyCode::P => self.mode = GameMode::Paused,
                 VirtualKeyCode::Space => {
                     self.bird.flap();
+                    self.waite_time = 0.0;
                 }
                 VirtualKeyCode::Q | VirtualKeyCode::Escape => ctx.quit(),
                 _ => (),
@@ -105,6 +120,13 @@ impl State {
 
         if self.bird.bird_out(GAME_HEIGHT) {
             self.mode = GameMode::End
+        }
+    }
+
+    /// 移动障碍物
+    fn move_obstacles(&mut self) {
+        for obt in &mut self.obstacle_list {
+            obt.move_forward(1);
         }
     }
 
@@ -126,13 +148,6 @@ impl State {
             self.obstacle_list.pop_front();
             self.obstacle_list
                 .push_back(obstacle::OBstacle::new(self.score, 80, GAME_HEIGHT));
-        }
-    }
-
-    /// 移动障碍物
-    fn move_obstacles(&mut self) {
-        for obt in &mut self.obstacle_list {
-            obt.move_forward(1);
         }
     }
 
@@ -184,19 +199,5 @@ impl State {
                 _ => (),
             }
         }
-    }
-
-    /// 重置游戏内容的方法
-    fn reset(&mut self) {
-        self.mode = GameMode::Playing;
-        self.waite_time = 0.0;
-        self.bird = bird::Bird::new(GAME_WIDTH, GAME_HEIGHT);
-        self.score = 0;
-        let mut obstacle_list = LinkedList::new();
-        obstacle_list.push_back(obstacle::OBstacle::new(0, 35, GAME_HEIGHT));
-        obstacle_list.push_back(obstacle::OBstacle::new(0, 50, GAME_HEIGHT));
-        obstacle_list.push_back(obstacle::OBstacle::new(0, 65, GAME_HEIGHT));
-        obstacle_list.push_back(obstacle::OBstacle::new(0, 80, GAME_HEIGHT));
-        self.obstacle_list = obstacle_list;
     }
 }
