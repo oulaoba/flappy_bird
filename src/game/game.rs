@@ -86,11 +86,9 @@ impl State {
 
         if let Some(key) = ctx.key {
             match key {
-                VirtualKeyCode::S => self.mode = GameMode::Playing,
                 VirtualKeyCode::P => self.mode = GameMode::Paused,
                 VirtualKeyCode::Space => {
                     self.bird.flap();
-                    self.bird.draw(ctx)
                 }
                 VirtualKeyCode::Q | VirtualKeyCode::Escape => ctx.quit(),
                 _ => (),
@@ -103,6 +101,7 @@ impl State {
         }
         ctx.print(0, 0, format!("Score :{}", self.score));
         ctx.print(0, 1, "Space to flap");
+        ctx.print(0, 2, "(Q/Esc) Quit game)");
 
         if self.bird.bird_out(GAME_HEIGHT) {
             self.mode = GameMode::End
